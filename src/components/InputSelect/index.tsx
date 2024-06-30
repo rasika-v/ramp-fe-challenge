@@ -7,6 +7,7 @@ import {
   InputSelectOnChange,
   InputSelectProps,
 } from "./types";
+import { EMPTY_EMPLOYEE } from "src/utils/constants";
 
 export function InputSelect<TItem>({
   label,
@@ -25,14 +26,31 @@ export function InputSelect<TItem>({
     left: 0,
   });
 
+  // const onChange = useCallback<InputSelectOnChange<TItem>>(
+  //   (selectedItem) => {
+  //     if (selectedItem === null) {
+  //       return;
+  //     }
+
+  //     consumerOnChange(selectedItem);
+  //     setSelectedValue(selectedItem);
+  //   },
+  //   [consumerOnChange]
+  // );
+
   const onChange = useCallback<InputSelectOnChange<TItem>>(
     (selectedItem) => {
       if (selectedItem === null) {
         return;
       }
 
-      consumerOnChange(selectedItem);
-      setSelectedValue(selectedItem);
+      if (selectedItem === EMPTY_EMPLOYEE) {
+        consumerOnChange(null);
+        setSelectedValue(null);
+      } else {
+        consumerOnChange(selectedItem);
+        setSelectedValue(selectedItem);
+      }
     },
     [consumerOnChange]
   );
